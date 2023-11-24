@@ -1,0 +1,82 @@
+{% macro render_diet(diet) -%}
+{%- if diet is none -%}
+{%- elif diet == Diet.PORK -%}
+&#x1F416;
+{%- elif diet == Diet.BEEF -%}
+&#x1F404;
+{%- elif diet == Diet.VEGETARIAN -%}
+&#x1F95A;
+{%- elif diet == Diet.VEGAN -%}
+&#x1F33E;
+{%- else -%}
+{{ diet }}
+{%- endif -%}
+{%- endmacro -%}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Mensa Summary</title>
+<style>
+body {
+    font-family: sans;
+    font-size: 110%;
+    max-width: 80em;
+    margin: auto;
+}
+
+span.diet {
+    display: inline-block;
+    width: 20px;
+    text-align: center;
+}
+
+.line-name {
+    font-weight: bold;
+}
+
+p.note {
+    font-size: 90%;
+}
+
+p.footer {
+    text-align: center;
+    color: #444444;
+}
+</style>
+    </head>
+    <body>
+        <h1>Lunch plan for {{ now.strftime("%A") }}</h1>
+        <h2>
+            KIT Mensa
+            <small><a href="https://www.sw-ka.de/de/hochschulgastronomie/speiseplan/mensa_adenauerring/" target="_blank">Source</a></small>
+        </h2>
+        <ul>
+            {% for line in lines_kit %}
+            <li><span class="line-name">{{ line.name }}</span>
+                <ul>
+                    {% for meal in line.meals %}
+                    <li><span class="diet">{{ render_diet(meal.diet) }}</span> {{ meal.name }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <p class="note">Note: Not all lines are shown. Lines with fixed menu (Line 4 Gnocchi, Line 6 Buffet, koeri and pasta) are hidden.</p>
+
+        <h2>
+            MRI
+            <small><a href="https://casinocatering.de/speiseplan/" target="_blank">Source</a></small>
+        </h2>
+        <ul>
+            {% for meal in meals_mri %}
+            <li>{{ meal.name }}</li>
+            {% endfor %}
+        </ul>
+
+        <hr>
+        <p class="footer">
+            {{ now.strftime("%A, %Y-%m-%d %H:%M") }}
+        </p>
+    </body>
+</html>
