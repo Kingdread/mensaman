@@ -19,7 +19,7 @@ MRI_URL = "https://casinocatering.de/speiseplan/"
 USER_AGENT = "mensaman/0.1.0"
 
 
-class Diet(enum.StrEnum):
+class Diet(enum.Enum):
     PORK = "pork"
     BEEF = "beef"
     VEGETARIAN = "vegetarian"
